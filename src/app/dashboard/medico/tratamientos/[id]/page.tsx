@@ -288,9 +288,7 @@ export default function TreatmentDetailsPage() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-3 flex-1">
                     <CardTitle className="flex items-center gap-3 text-xl font-semibold tracking-tight">
-                      <div className="rounded-lg bg-primary/10 p-2.5">
-                        <Activity className="h-6 w-6 text-primary" />
-                      </div>
+                      <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       {treatmentTypeLabel(treatment.type)}
                     </CardTitle>
                     <CardDescription className="flex flex-wrap items-center gap-3">
@@ -420,10 +418,8 @@ export default function TreatmentDetailsPage() {
                 {/* Treatment Information */}
                 <Card className="border shadow-sm">
                   <CardHeader className="border-b">
-                    <CardTitle className="text-base font-semibold flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <Heart className="h-6 w-6 text-primary" />
-                      </div>
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <Heart className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       Información del Tratamiento
                     </CardTitle>
                   </CardHeader>
@@ -460,10 +456,8 @@ export default function TreatmentDetailsPage() {
                 {/* Dates and Location */}
                 <Card className="border shadow-sm">
                   <CardHeader className="border-b">
-                    <CardTitle className="text-base font-semibold flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-chart-2/10">
-                        <Calendar className="h-6 w-6 text-chart-2" />
-                      </div>
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       Fechas y Ubicación
                     </CardTitle>
                   </CardHeader>
@@ -497,10 +491,8 @@ export default function TreatmentDetailsPage() {
                 {treatment.notes && (
                   <Card className="lg:col-span-2 border shadow-sm">
                     <CardHeader className="border-b">
-                      <CardTitle className="text-base font-semibold flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-chart-5/10">
-                          <FileText className="h-6 w-6 text-chart-5" />
-                        </div>
+                      <CardTitle className="text-base font-semibold flex items-center gap-2">
+                        <FileText className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                         Notas del Tratamiento
                       </CardTitle>
                     </CardHeader>
@@ -514,10 +506,8 @@ export default function TreatmentDetailsPage() {
                 {treatment.preparationInstructions && (
                   <Card className="lg:col-span-2 border shadow-sm border-primary/20">
                     <CardHeader className="border-b ">
-                      <CardTitle className="text-base font-semibold flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-primary/20">
-                          <AlertTriangle className="h-6 w-6 text-primary" />
-                        </div>
+                      <CardTitle className="text-base font-semibold flex items-center gap-2">
+                        <AlertTriangle className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                         Instrucciones de Preparación
                       </CardTitle>
                     </CardHeader>
@@ -531,10 +521,8 @@ export default function TreatmentDetailsPage() {
                 {patient && (
                   <Card className="lg:col-span-2 border shadow-sm">
                     <CardHeader className="border-b">
-                      <CardTitle className="text-base font-semibold flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-chart-2/10">
-                          <User className="h-6 w-6 text-chart-2" />
-                        </div>
+                      <CardTitle className="text-base font-semibold flex items-center gap-2">
+                        <User className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                         Información del Paciente
                       </CardTitle>
                     </CardHeader>
@@ -579,10 +567,8 @@ export default function TreatmentDetailsPage() {
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <CardTitle className="text-base font-semibold flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <Calendar className="h-6 w-6 text-primary" />
-                      </div>
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       Sesiones del Tratamiento
                     </CardTitle>
                     <Dialog open={seOpen} onOpenChange={setSeOpen}>
@@ -717,10 +703,8 @@ export default function TreatmentDetailsPage() {
             <TabsContent value="medications" className="space-y-6">
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
-                  <CardTitle className="text-base font-semibold flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <Pill className="h-6 w-6 text-primary" />
-                    </div>
+                  <CardTitle className="text-base font-semibold flex items-center gap-2">
+                    <Pill className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Medicamentos del Tratamiento
                   </CardTitle>
                 </CardHeader>

@@ -259,7 +259,7 @@ export default function AppointmentDetailsPage() {
             </Link>
             <div className="flex items-start justify-between">
               <div className="space-y-2">
-                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+                <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">
                   Detalles de Cita
                 </h1>
                 <p className="text-sm text-muted-foreground">Información completa de la cita médica</p>
@@ -273,10 +273,8 @@ export default function AppointmentDetailsPage() {
           {/* Patient Info */}
           <Card className="border shadow-sm">
             <CardHeader className="border-b">
-              <CardTitle className="flex items-center gap-3 text-lg font-semibold">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <User className="h-6 w-6 text-primary" />
-                </div>
+              <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                <User className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 Información del Paciente
               </CardTitle>
             </CardHeader>
@@ -293,10 +291,8 @@ export default function AppointmentDetailsPage() {
           {/* Appointment Details */}
           <Card className="border shadow-sm">
             <CardHeader className="border-b">
-              <CardTitle className="flex items-center gap-3 text-lg font-semibold">
-                <div className="p-2 rounded-lg bg-chart-2/10">
-                  <Calendar className="h-6 w-6 text-chart-2" />
-                </div>
+              <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                <Calendar className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 Detalles de la Cita
               </CardTitle>
             </CardHeader>

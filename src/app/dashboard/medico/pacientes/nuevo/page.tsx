@@ -231,7 +231,7 @@ export default function NuevoPacientePage() {
               </Button>
             </Link>
             <div className="space-y-2">
-              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">
                 Registrar Nuevo Paciente
               </h1>
               <p className="text-sm text-muted-foreground">Complete la información del paciente</p>
@@ -263,10 +263,8 @@ export default function NuevoPacientePage() {
             {/* Información Personal */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-lg font-semibold">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <UserPlus className="h-6 w-6 text-primary" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <UserPlus className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Personal
                 </CardTitle>
                 <CardDescription className="mt-1 text-base">Datos básicos del paciente</CardDescription>
@@ -401,10 +399,8 @@ export default function NuevoPacientePage() {
             {/* Información Médica */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-lg font-semibold">
-                  <div className="p-2 rounded-lg bg-chart-2/10">
-                    <Activity className="h-6 w-6 text-chart-2" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Médica
                 </CardTitle>
                 <CardDescription className="mt-1 text-base">Diagnóstico y tratamiento</CardDescription>
@@ -645,10 +641,8 @@ export default function NuevoPacientePage() {
             {/* Contacto de Emergencia */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-lg font-semibold">
-                  <div className="p-2 rounded-lg bg-chart-5/10">
-                    <UserPlus className="h-6 w-6 text-chart-5" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <UserPlus className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Contacto de Emergencia
                 </CardTitle>
                 <CardDescription className="mt-1 text-base">Persona a contactar en caso de emergencia</CardDescription>
@@ -700,10 +694,8 @@ export default function NuevoPacientePage() {
             {/* Información de Seguro */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-lg font-semibold">
-                  <div className="p-2 rounded-lg bg-chart-2/10">
-                    <UserPlus className="h-6 w-6 text-chart-2" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <UserPlus className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información de Seguro (Opcional)
                 </CardTitle>
                 <CardDescription className="mt-1 text-base">Datos del seguro médico</CardDescription>

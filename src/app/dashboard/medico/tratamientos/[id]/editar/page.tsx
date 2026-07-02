@@ -327,7 +327,7 @@ export default function EditarTratamientoPage() {
               </Button>
               </Link>
               <div className="space-y-2">
-                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+                <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">
                   Editar Tratamiento
                 </h1>
                 <p className="text-sm text-muted-foreground">Actualiza la información del tratamiento de {treatment.patientName}</p>
@@ -344,10 +344,8 @@ export default function EditarTratamientoPage() {
             {/* Patient Info (Read-only) */}
               <Card className="border shadow-sm bg-muted/30">
                 <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <User className="h-5 w-5 text-primary" />
-                    </div>
+                  <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                    <User className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Información del Paciente
                   </CardTitle>
                   <CardDescription className="mt-0.5">Paciente asignado a este tratamiento</CardDescription>
@@ -368,10 +366,8 @@ export default function EditarTratamientoPage() {
             {/* Treatment Type & Protocol (Read-only) */}
               <Card className="border shadow-sm bg-muted/30">
                 <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                    <div className="p-2 rounded-lg bg-chart-2/10">
-                      <Activity className="h-5 w-5 text-chart-2" />
-                    </div>
+                  <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                    <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Tipo y Protocolo
                   </CardTitle>
                   <CardDescription className="mt-0.5">El tipo y protocolo no se pueden modificar</CardDescription>
@@ -395,10 +391,8 @@ export default function EditarTratamientoPage() {
             {/* Editable Fields */}
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                    <div className="p-2 rounded-lg bg-chart-2/10">
-                      <Activity className="h-5 w-5 text-chart-2" />
-                    </div>
+                  <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                    <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Configuración del Tratamiento
                   </CardTitle>
                   <CardDescription className="mt-0.5">Actualiza los parámetros del tratamiento</CardDescription>
@@ -458,10 +452,8 @@ export default function EditarTratamientoPage() {
             {/* Medications */}
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <Pill className="h-5 w-5 text-primary" />
-                    </div>
+                  <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                    <Pill className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Medicamentos
                   </CardTitle>
                   <CardDescription className="mt-0.5">Actualiza los medicamentos del protocolo</CardDescription>
@@ -533,10 +525,8 @@ export default function EditarTratamientoPage() {
             {/* Additional Information */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="p-2 rounded-lg bg-chart-5/10">
-                    <FileText className="h-5 w-5 text-chart-5" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <FileText className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Adicional
                 </CardTitle>
                 <CardDescription className="mt-0.5">Notas e instrucciones para el tratamiento</CardDescription>

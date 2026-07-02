@@ -239,7 +239,7 @@ export default function PacienteDashboard() {
             <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs font-medium text-muted-foreground">{dateLabel}</p>
-                <h1 className="mt-1 text-2xl font-semibold tracking-tight text-foreground">
+                <h1 className="mt-1 font-display text-[1.75rem] font-semibold tracking-tight text-foreground">
                   Hola, {dashboard.patientName}
                 </h1>
                 {dashboard.doctorName && (

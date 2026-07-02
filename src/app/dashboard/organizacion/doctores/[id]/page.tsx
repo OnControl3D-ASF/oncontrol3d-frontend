@@ -216,10 +216,8 @@ export default function DoctorDetailsPage() {
             {/* Professional Information */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="text-base font-semibold flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <Stethoscope className="h-6 w-6 text-primary" />
-                  </div>
+                <CardTitle className="text-base font-semibold flex items-center gap-2">
+                  <Stethoscope className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Profesional
                 </CardTitle>
               </CardHeader>
@@ -256,10 +254,8 @@ export default function DoctorDetailsPage() {
             {/* Personal Information */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="text-base font-semibold flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-chart-2/10">
-                    <Users className="h-6 w-6 text-chart-2" />
-                  </div>
+                <CardTitle className="text-base font-semibold flex items-center gap-2">
+                  <Users className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Personal
                 </CardTitle>
               </CardHeader>
@@ -299,10 +295,8 @@ export default function DoctorDetailsPage() {
             {doctor.organizationName && (
               <Card className="border shadow-sm lg:col-span-2">
                 <CardHeader className="border-b">
-                  <CardTitle className="text-base font-semibold flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-chart-5/10">
-                      <Building2 className="h-6 w-6 text-chart-5" />
-                    </div>
+                  <CardTitle className="text-base font-semibold flex items-center gap-2">
+                    <Building2 className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Información de la Organización
                   </CardTitle>
                 </CardHeader>
@@ -318,10 +312,8 @@ export default function DoctorDetailsPage() {
             {doctor.bio && (
               <Card className="border shadow-sm lg:col-span-2">
                 <CardHeader className="border-b">
-                  <CardTitle className="text-base font-semibold flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <Activity className="h-6 w-6 text-primary" />
-                    </div>
+                  <CardTitle className="text-base font-semibold flex items-center gap-2">
+                    <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Biografía Profesional
                   </CardTitle>
                 </CardHeader>
@@ -334,10 +326,8 @@ export default function DoctorDetailsPage() {
             {/* Status Information */}
             <Card className="border shadow-sm lg:col-span-2">
               <CardHeader className="border-b">
-                <CardTitle className="text-base font-semibold flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-chart-2/10">
-                    <Activity className="h-6 w-6 text-chart-2" />
-                  </div>
+                <CardTitle className="text-base font-semibold flex items-center gap-2">
+                  <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Estado y Calificación
                 </CardTitle>
               </CardHeader>

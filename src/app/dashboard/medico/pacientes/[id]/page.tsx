@@ -511,10 +511,8 @@ export default function PatientDetailsPage() {
                 {/* Cancer Information */}
                 <Card className="border shadow-sm">
                   <CardHeader className="border-b">
-                    <CardTitle className="text-base font-semibold flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <Stethoscope className="h-6 w-6 text-primary" />
-                      </div>
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <Stethoscope className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       Información Oncológica
                     </CardTitle>
                   </CardHeader>
@@ -545,10 +543,8 @@ export default function PatientDetailsPage() {
                 {/* Medical Details */}
                 <Card className="border shadow-sm">
                   <CardHeader className="border-b">
-                    <CardTitle className="text-base font-semibold flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-chart-2/10">
-                        <Heart className="h-6 w-6 text-chart-2" />
-                      </div>
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <Heart className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       Información Médica General
                     </CardTitle>
                   </CardHeader>
@@ -576,10 +572,8 @@ export default function PatientDetailsPage() {
                 {(patient.insuranceProvider || patient.insuranceNumber) && (
                   <Card className="border shadow-sm">
                     <CardHeader className="border-b">
-                      <CardTitle className="text-base font-semibold flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-chart-5/10">
-                          <Shield className="h-6 w-6 text-chart-5" />
-                        </div>
+                      <CardTitle className="text-base font-semibold flex items-center gap-2">
+                        <Shield className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                         Seguro Médico
                       </CardTitle>
                     </CardHeader>
@@ -600,10 +594,8 @@ export default function PatientDetailsPage() {
                 {patient.emergencyContactName && (
                   <Card className="border shadow-sm border-primary/20">
                     <CardHeader className="border-b bg-gradient-to-r from-primary/10 to-background">
-                      <CardTitle className="text-base font-semibold flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-primary/20">
-                          <AlertTriangle className="h-6 w-6 text-primary" />
-                        </div>
+                      <CardTitle className="text-base font-semibold flex items-center gap-2">
+                        <AlertTriangle className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                         Contacto de Emergencia
                       </CardTitle>
                     </CardHeader>
@@ -633,10 +625,8 @@ export default function PatientDetailsPage() {
               <Card className="border shadow-sm border-destructive/20">
                 <CardHeader className="border-b">
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <CardTitle className="text-base font-semibold flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-destructive/15">
-                        <Shield className="h-5 w-5 text-destructive" />
-                      </div>
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       Alergias
                     </CardTitle>
                     <Dialog open={alOpen} onOpenChange={setAlOpen}>
@@ -750,10 +740,8 @@ export default function PatientDetailsPage() {
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
                   <div className="flex justify-between items-center">
-                    <CardTitle className="text-base font-semibold flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <Calendar className="h-6 w-6 text-primary" />
-                      </div>
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       Citas del Paciente
                     </CardTitle>
                     <Link href={`/dashboard/medico/citas/nueva?patientId=${patient.id}`}>
@@ -833,10 +821,8 @@ export default function PatientDetailsPage() {
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
                   <div className="flex justify-between items-center">
-                    <CardTitle className="text-base font-semibold flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <Activity className="h-6 w-6 text-primary" />
-                      </div>
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       Tratamientos del Paciente
                     </CardTitle>
                     <Link href={`/dashboard/medico/tratamientos/nuevo?patientId=${patient.id}`}>
@@ -915,8 +901,8 @@ export default function PatientDetailsPage() {
             <TabsContent value="symptoms" className="space-y-6">
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                    <div className="rounded-lg bg-chart-5/10 p-2"><Thermometer className="h-5 w-5 text-chart-5" /></div>
+                  <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                    <Thermometer className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Síntomas reportados
                   </CardTitle>
                   <CardDescription className="mt-0.5">Lo que el paciente registró desde su cuenta</CardDescription>
@@ -963,8 +949,8 @@ export default function PatientDetailsPage() {
                 <CardHeader className="border-b">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                        <div className="rounded-lg bg-primary/10 p-2"><Pill className="h-5 w-5 text-primary" /></div>
+                      <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                        <Pill className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                         Medicamentos
                       </CardTitle>
                       <CardDescription className="mt-0.5">Medicación registrada para el paciente</CardDescription>
@@ -1079,10 +1065,8 @@ export default function PatientDetailsPage() {
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <CardTitle className="text-base font-semibold flex items-center gap-3">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <FileText className="h-6 w-6 text-primary" />
-                      </div>
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <FileText className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                       Historial Médico
                     </CardTitle>
                     <Dialog open={hxOpen} onOpenChange={setHxOpen}>

@@ -116,7 +116,7 @@ export default function MedicoPerfilPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
             <div className="space-y-2">
-              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">
                 Mi Perfil
               </h1>
               <p className="text-sm text-muted-foreground">Gestiona tu información profesional</p>
@@ -189,10 +189,8 @@ export default function MedicoPerfilPage() {
             {/* Personal Information */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <User className="w-5 h-5 text-primary" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <User className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Personal
                 </CardTitle>
                 <CardDescription className="mt-0.5">Información básica de identificación</CardDescription>
@@ -249,10 +247,8 @@ export default function MedicoPerfilPage() {
             {/* Professional Information */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="p-2 rounded-lg bg-chart-2/10">
-                    <GraduationCap className="w-5 h-5 text-chart-2" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <GraduationCap className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Profesional
                 </CardTitle>
                 <CardDescription className="mt-0.5">Credenciales y especialización</CardDescription>
@@ -317,10 +313,8 @@ export default function MedicoPerfilPage() {
           {/* Biography */}
           <Card className="border shadow-sm">
             <CardHeader className="border-b">
-              <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                <div className="p-2 rounded-lg bg-chart-5/10">
-                  <Settings className="w-5 h-5 text-chart-5" />
-                </div>
+              <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                <Settings className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 Biografía Profesional
               </CardTitle>
               <CardDescription className="mt-0.5">Información adicional sobre tu práctica médica</CardDescription>

@@ -172,7 +172,7 @@ export default function EditarPacientePage() {
               </Button>
             </Link>
             <div>
-              <h1 className="text-2xl font-semibold tracking-tight text-foreground">Editar paciente</h1>
+              <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">Editar paciente</h1>
               <p className="text-sm text-muted-foreground">
                 {patient?.firstName} {patient?.lastName}
               </p>
@@ -189,8 +189,8 @@ export default function EditarPacientePage() {
             {/* Datos personales */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="rounded-lg bg-primary/10 p-2"><User className="h-5 w-5 text-primary" /></div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <User className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Datos personales
                 </CardTitle>
                 <CardDescription className="mt-0.5">Contacto y demografía del paciente</CardDescription>
@@ -226,8 +226,8 @@ export default function EditarPacientePage() {
             {/* Datos clínicos */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="rounded-lg bg-chart-2/10 p-2"><HeartPulse className="h-5 w-5 text-chart-2" /></div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <HeartPulse className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Datos clínicos
                 </CardTitle>
                 <CardDescription className="mt-0.5">Gestionados por el médico</CardDescription>
@@ -283,8 +283,8 @@ export default function EditarPacientePage() {
             {/* Contacto de emergencia */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="rounded-lg bg-destructive/10 p-2"><Phone className="h-5 w-5 text-destructive" /></div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <Phone className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Contacto de emergencia
                 </CardTitle>
               </CardHeader>

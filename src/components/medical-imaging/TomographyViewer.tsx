@@ -191,10 +191,8 @@ export function TomographyViewer({
     return (
       <Card className="border shadow-sm">
         <CardHeader className="border-b">
-          <CardTitle className="flex items-center gap-3 text-base font-semibold">
-            <div className="rounded-lg bg-primary/10 p-2">
-              <ScanLine className="h-6 w-6 text-primary" />
-            </div>
+          <CardTitle className="flex items-center gap-2 text-base font-semibold">
+            <ScanLine className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
             Imágenes médicas
           </CardTitle>
           <CardDescription>
@@ -245,10 +243,8 @@ export function TomographyViewer({
         <CardHeader className="border-b">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                <div className="rounded-lg bg-primary/10 p-2">
-                  <ScanLine className="h-6 w-6 text-primary" />
-                </div>
+              <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                <ScanLine className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 Reconstrucción pulmonar 3D
               </CardTitle>
               <CardDescription>

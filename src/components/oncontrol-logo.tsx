@@ -24,7 +24,7 @@ export function OnControlLogo({ className = "", size = "md", hideText = false, o
         style={{ width: px, height: px }}
       />
       {!hideText && (
-        <span className={`font-bold tracking-tight ${TEXT_CLASS[size]}`}>
+        <span className={`font-display font-bold tracking-tight ${TEXT_CLASS[size]}`}>
           <span className={onDark ? "text-white" : "text-foreground"}>OnControl</span>
           <span className={onDark ? "text-white/80" : "text-primary"}> 3D</span>
         </span>

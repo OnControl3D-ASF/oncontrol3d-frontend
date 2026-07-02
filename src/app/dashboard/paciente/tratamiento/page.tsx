@@ -127,7 +127,7 @@ export default function TratamientoPacientePage() {
         <div className="space-y-8">
       {/* Header */}
       <div className="space-y-2">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+        <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">
           Mi Tratamiento
         </h1>
         <p className="text-sm text-muted-foreground">Información detallada sobre tu protocolo de tratamiento actual</p>
@@ -195,10 +195,8 @@ export default function TratamientoPacientePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <Activity className="w-5 h-5 text-primary" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Estado Actual
                 </CardTitle>
               </CardHeader>
@@ -238,10 +236,8 @@ export default function TratamientoPacientePage() {
 
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="p-2 rounded-lg bg-chart-2/10">
-                    <Calendar className="w-5 h-5 text-chart-2" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <Calendar className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Adicional
                 </CardTitle>
               </CardHeader>
@@ -273,10 +269,8 @@ export default function TratamientoPacientePage() {
           {treatment.notes && (
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="p-2 rounded-lg bg-destructive/10">
-                    <Heart className="w-5 h-5 text-destructive" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <Heart className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Notas del Médico
                 </CardTitle>
               </CardHeader>
@@ -290,9 +284,7 @@ export default function TratamientoPacientePage() {
             <Card className="border border-border shadow-sm ">
               <CardHeader className="border-b border-border">
                 <CardTitle className="flex items-center gap-3 text-base font-semibold text-chart-2">
-                  <div className="p-2 rounded-lg bg-chart-2/20">
-                    <AlertCircle className="w-5 h-5 text-chart-2" />
-                  </div>
+                  <AlertCircle className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Instrucciones de Preparación
                 </CardTitle>
               </CardHeader>
@@ -306,10 +298,8 @@ export default function TratamientoPacientePage() {
         <TabsContent value="medicamentos" className="space-y-6">
           <Card className="border shadow-sm">
             <CardHeader className="border-b">
-              <CardTitle className="flex items-center gap-3 text-lg font-semibold">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Pill className="w-6 h-6 text-primary" />
-                </div>
+              <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                <Pill className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 Medicamentos del Protocolo
               </CardTitle>
               <CardDescription className="mt-1">Medicamentos que forman parte de tu tratamiento actual</CardDescription>
@@ -342,10 +332,8 @@ export default function TratamientoPacientePage() {
         <TabsContent value="efectos" className="space-y-6">
           <Card className="border shadow-sm">
             <CardHeader className="border-b">
-              <CardTitle className="flex items-center gap-3 text-lg font-semibold">
-                <div className="p-2 rounded-lg bg-chart-2/10">
-                  <AlertCircle className="w-6 h-6 text-chart-2" />
-                </div>
+              <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                <AlertCircle className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 Efectos Secundarios Registrados
               </CardTitle>
               <CardDescription className="mt-1">Efectos secundarios que has experimentado durante el tratamiento</CardDescription>
@@ -378,10 +366,8 @@ export default function TratamientoPacientePage() {
         <TabsContent value="sesiones" className="space-y-6">
           <Card className="border shadow-sm">
             <CardHeader className="border-b">
-              <CardTitle className="flex items-center gap-3 text-lg font-semibold">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Calendar className="w-6 h-6 text-primary" />
-                </div>
+              <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                <Calendar className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                 Próximas Sesiones
               </CardTitle>
               <CardDescription className="mt-1">Sesiones programadas de tu tratamiento</CardDescription>

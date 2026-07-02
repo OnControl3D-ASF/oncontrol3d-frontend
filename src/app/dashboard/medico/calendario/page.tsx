@@ -315,7 +315,7 @@ export default function CalendarPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
             <div className="space-y-2">
-              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">
                 Calendario
               </h1>
               <p className="text-sm text-muted-foreground">

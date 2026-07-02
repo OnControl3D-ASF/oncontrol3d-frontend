@@ -150,7 +150,7 @@ export default function TratamientosPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">Tratamientos</h1>
+          <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">Tratamientos</h1>
           <p className="mt-1 text-sm tabular-nums text-muted-foreground">
             {tratamientosFiltrados.length} {tratamientosFiltrados.length === 1 ? "tratamiento" : "tratamientos"}
           </p>

@@ -135,7 +135,7 @@ export default function MedicamentosPage() {
         <div className="space-y-8">
           {/* Header */}
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground">Mis medicamentos</h1>
+            <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">Mis medicamentos</h1>
             <p className="text-sm text-muted-foreground">Gestiona tus medicamentos y recordatorios</p>
           </div>
 
@@ -246,9 +246,7 @@ export default function MedicamentosPage() {
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <CardTitle className="flex items-center gap-3 text-xl font-semibold mb-1">
-                          <div className="p-2 rounded-lg bg-primary/10">
-                            <Pill className="w-5 h-5 text-primary" />
-                          </div>
+                          <Pill className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                           {medication.name}
                         </CardTitle>
                         <CardDescription>

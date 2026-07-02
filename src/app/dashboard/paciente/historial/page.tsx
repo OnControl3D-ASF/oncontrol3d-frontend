@@ -184,7 +184,7 @@ export default function HistorialPage() {
         <div className="space-y-8">
           {/* Header */}
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground">Historial médico</h1>
+            <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">Historial médico</h1>
             <p className="text-sm text-muted-foreground">Registro completo de tu atención médica</p>
           </div>
 

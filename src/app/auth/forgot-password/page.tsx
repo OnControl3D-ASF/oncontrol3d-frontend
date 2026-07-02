@@ -23,7 +23,7 @@ export default function ForgotPasswordPage() {
             </Button>
           </Link>
           <OnControlLogo size="lg" className="mb-4 justify-center" />
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">Recuperar acceso</h1>
+          <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">Recuperar acceso</h1>
         </div>
 
         <Card className="rounded-2xl border border-border bg-card shadow-sm">

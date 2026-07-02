@@ -68,7 +68,7 @@ export default function DoctorsListPage() {
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground">Médicos</h1>
+            <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">Médicos</h1>
             <p className="mt-1 text-sm tabular-nums text-muted-foreground">
               {filteredDoctors.length} de {doctors.length} ·{" "}
               <span className="text-success">{doctors.filter((d) => d.isAvailable).length} disponibles</span>

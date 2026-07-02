@@ -286,7 +286,7 @@ export default function NuevoTratamientoPage() {
               </Button>
               </Link>
               <div className="space-y-2">
-                <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+                <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">
                   Nuevo Tratamiento
                 </h1>
                 <p className="text-sm text-muted-foreground">Registra un nuevo tratamiento oncológico para un paciente</p>
@@ -303,10 +303,8 @@ export default function NuevoTratamientoPage() {
             {/* Patient Selection */}
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <User className="h-5 w-5 text-primary" />
-                    </div>
+                  <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                    <User className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Selección de Paciente
                   </CardTitle>
                   <CardDescription className="mt-1 text-base">Elige el paciente que recibirá el tratamiento</CardDescription>
@@ -355,10 +353,8 @@ export default function NuevoTratamientoPage() {
             {/* Treatment Details */}
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                    <div className="p-2 rounded-lg bg-chart-2/10">
-                      <Activity className="h-5 w-5 text-chart-2" />
-                    </div>
+                  <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                    <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Detalles del Tratamiento
                   </CardTitle>
                   <CardDescription className="mt-1 text-base">Información básica del protocolo de tratamiento</CardDescription>
@@ -509,10 +505,8 @@ export default function NuevoTratamientoPage() {
             {/* Medications */}
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <Pill className="h-5 w-5 text-primary" />
-                    </div>
+                  <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                    <Pill className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Medicamentos
                   </CardTitle>
                   <CardDescription className="mt-1 text-base">Medicamentos incluidos en el protocolo</CardDescription>
@@ -584,10 +578,8 @@ export default function NuevoTratamientoPage() {
             {/* Additional Information */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="p-2 rounded-lg bg-chart-5/10">
-                    <FileText className="h-5 w-5 text-chart-5" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <FileText className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Adicional
                 </CardTitle>
                 <CardDescription className="mt-1 text-base">Notas e instrucciones para el tratamiento</CardDescription>

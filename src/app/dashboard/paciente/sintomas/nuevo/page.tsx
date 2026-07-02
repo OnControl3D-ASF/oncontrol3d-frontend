@@ -207,7 +207,7 @@ export default function NuevoSintomaPage() {
               </Link>
             </Button>
             <div className="space-y-2">
-              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">
                 Reportar Síntoma
               </h1>
               <p className="text-sm text-muted-foreground">Registra un nuevo síntoma para tu seguimiento médico</p>
@@ -226,10 +226,8 @@ export default function NuevoSintomaPage() {
               {/* Basic Information */}
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <Activity className="h-5 w-5 text-primary" />
-                    </div>
+                  <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                    <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Información Básica
                   </CardTitle>
                   <CardDescription className="mt-1 text-base">Detalles principales del síntoma</CardDescription>
@@ -346,10 +344,8 @@ export default function NuevoSintomaPage() {
               {/* Additional Information */}
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
-                  <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                    <div className="p-2 rounded-lg bg-chart-2/10">
-                      <AlertTriangle className="h-5 w-5 text-chart-2" />
-                    </div>
+                  <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                    <AlertTriangle className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                     Información Adicional
                   </CardTitle>
                   <CardDescription className="mt-1 text-base">Contexto y manejo del síntoma</CardDescription>

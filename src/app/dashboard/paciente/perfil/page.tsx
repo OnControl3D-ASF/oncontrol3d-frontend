@@ -133,7 +133,7 @@ export default function PacientePerfilPage() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
             <div className="space-y-2">
-              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              <h1 className="font-display text-[1.75rem] font-semibold tracking-tight text-foreground">
                 Mi Perfil
               </h1>
               <p className="text-sm text-muted-foreground">Gestiona tu información personal</p>
@@ -208,10 +208,8 @@ export default function PacientePerfilPage() {
             {/* Personal Information */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <User className="w-5 h-5 text-primary" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <User className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Personal
                 </CardTitle>
                 <CardDescription className="mt-0.5">Información básica de identificación</CardDescription>
@@ -282,10 +280,8 @@ export default function PacientePerfilPage() {
             {/* Medical Information */}
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="p-2 rounded-lg bg-chart-2/10">
-                    <Heart className="w-5 h-5 text-chart-2" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <Heart className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Información Médica
                 </CardTitle>
                 <CardDescription className="mt-0.5">Detalles de tu condición y tratamiento</CardDescription>
@@ -352,10 +348,8 @@ export default function PacientePerfilPage() {
           {patientData.address && (
             <Card className="border shadow-sm">
               <CardHeader className="border-b">
-                <CardTitle className="flex items-center gap-3 text-base font-semibold">
-                  <div className="p-2 rounded-lg bg-chart-5/10">
-                    <Settings className="w-5 h-5 text-chart-5" />
-                  </div>
+                <CardTitle className="flex items-center gap-2 text-base font-semibold">
+                  <Settings className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   Dirección
                 </CardTitle>
                 <CardDescription className="mt-0.5">Tu dirección de residencia</CardDescription>
