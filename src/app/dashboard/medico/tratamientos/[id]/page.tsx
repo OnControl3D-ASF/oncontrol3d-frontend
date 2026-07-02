@@ -9,6 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useToast } from "@/hooks/use-toast"
 import { Loading } from "@/components/loading"
 import { useAuthContext } from "@/contexts/auth-context"
 import { treatments, doctors } from "@/lib/api"
@@ -46,6 +52,8 @@ export default function TreatmentDetailsPage() {
   const [patient, setPatient] = useState<PatientProfileResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
+  const [refreshKey, setRefreshKey] = useState(0)
+  const { toast } = useToast()
 
   useEffect(() => {
     if (user && isDoctorUser(user)) {
@@ -96,7 +104,60 @@ export default function TreatmentDetailsPage() {
     }
 
     loadTreatmentData()
-  }, [doctorProfileId, treatmentId])
+  }, [doctorProfileId, treatmentId, refreshKey])
+
+  // Register-session dialog (backend semantics: logs a COMPLETED session and
+  // advances the treatment cycle / completes the treatment when cycles run out).
+  const emptySession = {
+    date: new Date().toISOString().slice(0, 16),
+    cycle: "",
+    notes: "",
+    sideEffects: "",
+  }
+  const [seOpen, setSeOpen] = useState(false)
+  const [seSaving, setSeSaving] = useState(false)
+  const [se, setSe] = useState(emptySession)
+
+  const handleRegisterSession = async () => {
+    if (!treatment) return
+    const cycle = parseInt(se.cycle || String(treatment.currentCycle), 10)
+    if (!se.date || Number.isNaN(cycle) || cycle < 1) {
+      toast({ title: "Faltan datos", description: "Fecha y ciclo válidos son obligatorios.", variant: "destructive" })
+      return
+    }
+    setSeSaving(true)
+    try {
+      await treatments.createSession(treatment.id, {
+        sessionDate: se.date,
+        cycleNumber: cycle,
+        notes: se.notes.trim() || undefined,
+        sideEffects: se.sideEffects.trim()
+          ? se.sideEffects.split(",").map((s) => s.trim()).filter(Boolean)
+          : undefined,
+      })
+      setSe(emptySession)
+      setSeOpen(false)
+      setRefreshKey((k) => k + 1)
+      toast({ title: "Sesión registrada", description: "El progreso del tratamiento se actualizó." })
+    } catch (err) {
+      toast({ title: "No se pudo registrar", description: err instanceof Error ? err.message : "Error al registrar la sesión", variant: "destructive" })
+    } finally {
+      setSeSaving(false)
+    }
+  }
+
+  const handleStatusChange = async (newStatus: string) => {
+    if (!treatment || newStatus === treatment.status) return
+    try {
+      await treatments.updateStatus(treatment.id, {
+        status: newStatus as Parameters<typeof treatments.updateStatus>[1]["status"],
+      })
+      setRefreshKey((k) => k + 1)
+      toast({ title: "Estado actualizado", description: `El tratamiento pasó a ${statusPill(newStatus).label.toLowerCase()}.` })
+    } catch (err) {
+      toast({ title: "No se pudo cambiar el estado", description: err instanceof Error ? err.message : "Error", variant: "destructive" })
+    }
+  }
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return "No especificado"
@@ -239,7 +300,19 @@ export default function TreatmentDetailsPage() {
                       <span className="text-sm text-muted-foreground">Protocolo: <span className="font-medium text-foreground">{treatment.protocol}</span></span>
                     </CardDescription>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Select value={treatment.status} onValueChange={handleStatusChange}>
+                      <SelectTrigger className="h-9 w-[160px] border" aria-label="Cambiar estado del tratamiento">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ACTIVE">Activo</SelectItem>
+                        <SelectItem value="SUSPENDED">Suspendido</SelectItem>
+                        <SelectItem value="COMPLETED">Completado</SelectItem>
+                        <SelectItem value="CANCELLED">Cancelado</SelectItem>
+                        <SelectItem value="FOLLOW_UP">Seguimiento</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <Link href={`/dashboard/medico/tratamientos/${treatment.id}/editar`}>
                       <Button variant="outline" size="sm" className="border hover:bg-primary hover:text-primary-foreground">
                         <Edit className="mr-2 h-4 w-4" />
@@ -505,12 +578,66 @@ export default function TreatmentDetailsPage() {
             <TabsContent value="sessions" className="space-y-6">
               <Card className="border shadow-sm">
                 <CardHeader className="border-b">
-                  <CardTitle className="text-base font-semibold flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-primary/10">
-                      <Calendar className="h-6 w-6 text-primary" />
-                    </div>
-                    Sesiones del Tratamiento
-                  </CardTitle>
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <CardTitle className="text-base font-semibold flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-primary/10">
+                        <Calendar className="h-6 w-6 text-primary" />
+                      </div>
+                      Sesiones del Tratamiento
+                    </CardTitle>
+                    <Dialog open={seOpen} onOpenChange={setSeOpen}>
+                      <DialogTrigger asChild>
+                        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          Registrar sesión
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>Registrar sesión realizada</DialogTitle>
+                          <DialogDescription>
+                            Registra una sesión ya realizada: avanza el ciclo del tratamiento y,
+                            si es el último ciclo, lo marca como completado.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-2">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="se-date">Fecha y hora *</Label>
+                              <Input id="se-date" type="datetime-local" value={se.date}
+                                onChange={(e) => setSe({ ...se, date: e.target.value })} />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor="se-cycle">Ciclo *</Label>
+                              <Input id="se-cycle" type="number" min={1} max={treatment.totalCycles}
+                                placeholder={`Actual: ${treatment.currentCycle} de ${treatment.totalCycles}`}
+                                value={se.cycle}
+                                onChange={(e) => setSe({ ...se, cycle: e.target.value })} />
+                            </div>
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="se-effects">Efectos secundarios (separados por coma)</Label>
+                            <Input id="se-effects" placeholder="Ej: Náuseas, Fatiga" value={se.sideEffects}
+                              onChange={(e) => setSe({ ...se, sideEffects: e.target.value })} />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="se-notes">Notas (opcional)</Label>
+                            <Textarea id="se-notes" rows={2} placeholder="Observaciones de la sesión…"
+                              value={se.notes} onChange={(e) => setSe({ ...se, notes: e.target.value })} />
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <Button variant="outline" className="border" onClick={() => setSeOpen(false)} disabled={seSaving}>
+                            Cancelar
+                          </Button>
+                          <Button onClick={handleRegisterSession} disabled={seSaving}
+                            className="bg-primary text-primary-foreground hover:bg-primary/90">
+                            {seSaving ? "Registrando..." : "Registrar"}
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
                 </CardHeader>
                 <CardContent className="p-6">
                   {sessions.length === 0 ? (

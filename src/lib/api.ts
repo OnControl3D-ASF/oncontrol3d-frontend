@@ -337,8 +337,10 @@ export interface UpdateTreatmentRequest {
   preparationInstructions?: string;
 }
 
+// Matches the backend TreatmentStatus enum (there is no PAUSED — the DB check
+// constraint rejects it; SUSPENDED is the pause-like state).
 export interface UpdateTreatmentStatusRequest {
-  status: 'ACTIVE' | 'PAUSED' | 'COMPLETED' | 'SUSPENDED';
+  status: 'ACTIVE' | 'SUSPENDED' | 'COMPLETED' | 'CANCELLED' | 'FOLLOW_UP';
   reason?: string;
 }
 
