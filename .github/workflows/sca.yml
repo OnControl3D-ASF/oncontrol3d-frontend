@@ -1,0 +1,33 @@
+name: SCA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1" # new vulnerabilities can appear without code changes
+
+permissions:
+  contents: read
+
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    container:
+      image: aquasec/trivy@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7bac8db623eca6c06c
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Generate full report
+        run: trivy fs . --scanners vuln --format json --output trivy.json
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: trivy-report
+          path: trivy.json
+
+      - name: Fail on fixable HIGH or CRITICAL vulnerabilities
+        run: trivy fs . --scanners vuln --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1
