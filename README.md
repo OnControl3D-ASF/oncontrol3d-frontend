@@ -55,12 +55,12 @@ src/
 
 ### Organización (Administrador)
 - **Email**: `admin@hospital.com`
-- **Contraseña**: `password123` 
+- **Contraseña**: la definida en `SEED_USER_PASSWORD` del backend
 
 ### Médicos
 - **Doctor 1**: `dr.garcia@hospital.com`
 - **Doctor 2**: `dr.rodriguez@hospital.com`
-- **Contraseña**: `password123` 
+- **Contraseña**: la definida en `SEED_USER_PASSWORD` del backend
 
 
 ### Pacientes
@@ -68,7 +68,7 @@ src/
 - **Paciente 2**: `ana.martinez@email.com`
 - **Paciente 3**: `pedro.lopez@email.com`
 - **Paciente 4**: `laura.sanchez@email.com`
-- **Contraseña**: `password123` 
+- **Contraseña**: la definida en `SEED_USER_PASSWORD` del backend
 
 
 ## 🚀 Configuración del Proyecto
