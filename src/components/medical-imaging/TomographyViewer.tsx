@@ -1,11 +1,11 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
+import dynamic from "next/dynamic"
 import {
   AlertTriangle,
   ExternalLink,
   FileSearch,
-  ImageIcon,
   Loader2,
   ScanLine,
   ShieldCheck,
@@ -23,6 +23,12 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { imagingStudies, type ImagingStudyResponse } from "@/lib/api"
+import { publicViewerUrl, surfaceUrl } from "./lung-surface-url.mjs"
+
+const SolidLungViewer = dynamic(() => import("./SolidLungViewer"), {
+  ssr: false,
+  loading: () => <p className="p-8 text-center text-sm">Cargando visor sólido…</p>,
+})
 
 type TomographyViewerProps = {
   patientId: string | number
@@ -52,9 +58,15 @@ export function TomographyViewer({
   patientId,
   patientName,
 }: TomographyViewerProps) {
+  return <PatientTomographyViewer key={patientId} patientId={patientId} patientName={patientName} />
+}
+
+function PatientTomographyViewer({ patientId, patientName }: TomographyViewerProps) {
   const [studies, setStudies] = useState<ImagingStudyResponse[]>([])
   const [selectedStudyId, setSelectedStudyId] = useState<number | null>(null)
   const [viewerUrl, setViewerUrl] = useState<string | null>(null)
+  const [modelUrl, setModelUrl] = useState<string | null>(null)
+  const [viewMode, setViewMode] = useState<"solid" | "volume">("solid")
   const [isProcessing, setIsProcessing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isUploading, setIsUploading] = useState(false)
@@ -92,6 +104,7 @@ export function TomographyViewer({
       await loadStudies()
       setSelectedStudyId(created.id)
       setViewerUrl(null)
+      setModelUrl(null)
     } catch (err) {
       setError(
         err instanceof Error
@@ -116,7 +129,7 @@ export function TomographyViewer({
         type="button"
         variant="outline"
         onClick={() => fileInputRef.current?.click()}
-        disabled={isUploading}
+        disabled={isUploading || isProcessing}
       >
         <Upload className="mr-2 h-4 w-4" />
         {isUploading ? "Subiendo tomografía..." : "Subir tomografía"}
@@ -134,6 +147,8 @@ export function TomographyViewer({
       setIsProcessing(true)
       setError(null)
       setViewerUrl(null)
+      setModelUrl(null)
+      setViewMode("solid")
 
       const token =
         typeof window !== "undefined" ? localStorage.getItem("auth_token") : null
@@ -164,7 +179,13 @@ export function TomographyViewer({
         throw new Error("El backend no devolvió la URL de VolView.")
       }
 
-      setViewerUrl(data.volviewUrl)
+      setViewerUrl(publicViewerUrl(data.volviewUrl, window.location.origin))
+      setModelUrl(surfaceUrl(
+        selectedStudy.orthancStudyId,
+        process.env.NEXT_PUBLIC_IMAGING_URL ?? "",
+        data.lungVolumeUrl ?? "",
+        process.env.NODE_ENV === "development",
+      ))
     } catch (err) {
       setError(
         err instanceof Error
@@ -318,7 +339,7 @@ export function TomographyViewer({
                 <Button
                   type="button"
                   onClick={handleGenerateLungSegmentation}
-                  disabled={isProcessing || !selectedStudy.orthancStudyId}
+                  disabled={isProcessing || isUploading || !selectedStudy.orthancStudyId}
                 >
                   {isProcessing
                     ? "Procesando pulmones..."
@@ -352,24 +373,27 @@ export function TomographyViewer({
                         Reconstrucción pulmonar 3D
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        Generada por el microservicio de imágenes.
+                        Modelo sólido de la máscara pulmonar segmentada.
                       </p>
                     </div>
 
                     <Button asChild variant="outline" size="sm">
                       <a href={viewerUrl} target="_blank" rel="noreferrer">
-                        Abrir en nueva pestaña
+                        Abrir VolView
                         <ExternalLink className="ml-2 h-4 w-4" />
                       </a>
                     </Button>
                   </div>
 
-                  <iframe
-                    src={viewerUrl}
-                    title="Reconstrucción pulmonar 3D"
-                    className="h-[720px] w-full bg-black"
-                    allowFullScreen
-                  />
+                  <div className="flex gap-2 border-b px-4 py-3" aria-label="Modo de visualización">
+                    <Button type="button" size="sm" variant={viewMode === "solid" ? "default" : "outline"} aria-pressed={viewMode === "solid"} onClick={() => setViewMode("solid")} disabled={!modelUrl}>Modelo sólido</Button>
+                    <Button type="button" size="sm" variant={viewMode === "volume" ? "default" : "outline"} aria-pressed={viewMode === "volume"} onClick={() => setViewMode("volume")}>Volumen en VolView</Button>
+                  </div>
+                  {viewMode === "solid" && modelUrl ? (
+                    <SolidLungViewer key={modelUrl} url={modelUrl} />
+                  ) : (
+                    <iframe src={viewerUrl} title="Volumen pulmonar en VolView" className="h-[720px] w-full bg-black" allowFullScreen />
+                  )}
                 </div>
               )}
             </>
