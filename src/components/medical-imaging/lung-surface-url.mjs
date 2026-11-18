@@ -16,6 +16,8 @@ export function surfaceUrl(studyId, origin, lungVolumeUrl, local, browserOrigin 
 // A public demo must never send another browser to this machine's localhost.
 // Rewrite only the known local services; deployed external origins stay intact.
 export function publicViewerUrl(viewerUrl, browserOrigin) {
+  // Same-origin paths (AKS gateway/Ingress) already resolve against the serving host.
+  if (!URL.canParse(viewerUrl)) return viewerUrl
   const url = new URL(viewerUrl)
   if (!["localhost", "127.0.0.1", "[::1]"].includes(url.hostname) ||
       url.port !== "8042" || !/^\/volview(?:\/|$)/.test(url.pathname)) return viewerUrl

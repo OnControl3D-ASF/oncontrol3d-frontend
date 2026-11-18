@@ -29,6 +29,15 @@ test("rewrites only known loopback hosts and preserves external sources and name
   }
 })
 
+test("keeps same-origin VolView links relative to the serving host", () => {
+  const relative = "/volview/index.html?names=[s_lung_highlighted.mha]&urls=[/imaging/studies/s/derived/lung-highlighted?v%3D1]"
+  assert.equal(publicViewerUrl(relative, "https://oncontrol.example.test"), relative)
+  assert.equal(
+    surfaceUrl("s", "", "/imaging/studies/s/derived/lung-volume", false, "https://oncontrol.example.test"),
+    "https://oncontrol.example.test/imaging/studies/s/derived/lung-surface",
+  )
+})
+
 test("uses the local imaging proxy and a configurable production origin", () => {
   assert.equal(surfaceUrl("study", "", "http://unused/derived/lung-volume", true), "/imaging/studies/study/derived/lung-surface")
   assert.equal(surfaceUrl("study", "https://images.test/", "", false), "https://images.test/studies/study/derived/lung-surface")
