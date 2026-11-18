@@ -92,6 +92,27 @@ npm install
 npm run dev
 ```
 
+### Vista sólida de pulmones (demo local)
+
+En **Tomografía 3D → Generar reconstrucción pulmonar 3D**, la vista inicial muestra
+la superficie de la máscara segmentada: arrastrá para rotar, usá la rueda para
+acercar y **Restablecer vista** para volver al encuadre frontal. No representa
+tejido interno ni detecta tumores; es una visualización referencial, no diagnóstica.
+**Volumen en VolView** conserva el visor volumétrico como alternativa.
+
+El servicio de imágenes debe incluir `GET /studies/{id}/derived/lung-surface` y
+conservar el DICOM original del estudio. La primera generación puede tardar un
+minuto. En desarrollo se usa el proxy `/imaging`; en producción configurá
+`NEXT_PUBLIC_IMAGING_URL` con el origen HTTPS público del servicio (sin `/studies`).
+Si no está configurado, se utiliza el origen de `lungVolumeUrl` devuelto por la API.
+El visor requiere WebGL y carga Three.js solo al abrir el modelo.
+
+Pruebas del visor, sin build:
+```bash
+node --test src/components/medical-imaging/lung-surface.test.mjs
+npx tsc --noEmit --incremental false
+```
+
 ## 🌐 Despliegue Actual
 - **Frontend**: [Vercel](https://oncontrol-front-sem.vercel.app)
 - **Backend**: [Render](https://oncontrol-backend-api.onrender.com)

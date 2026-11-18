@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
 
   // Performance optimizations
   experimental: {
+    // Preserve DICOM ZIP bodies through rewrites; match Spring's 200MB limit.
+    proxyClientMaxBodySize: '200mb',
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
   
