@@ -74,11 +74,15 @@ export default function SolidLungViewer({ url }: { url: string }) {
           render()
         }
         reset.current = fit
+        let framed = false
+        // Frame the model once; later resizes keep the user's rotation and zoom.
         const resize = () => {
           const { width, height } = target.getBoundingClientRect()
           camera.aspect = Math.max(width, 1) / Math.max(height, 1)
           camera.updateProjectionMatrix()
           renderer?.setSize(width, height)
+          if (framed) return render()
+          framed = true
           fit()
         }
         observer = new ResizeObserver(resize)

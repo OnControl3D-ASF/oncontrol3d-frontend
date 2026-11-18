@@ -180,12 +180,18 @@ function PatientTomographyViewer({ patientId, patientName }: TomographyViewerPro
       }
 
       setViewerUrl(publicViewerUrl(data.volviewUrl, window.location.origin))
-      setModelUrl(surfaceUrl(
-        selectedStudy.orthancStudyId,
-        process.env.NEXT_PUBLIC_IMAGING_URL ?? "",
-        data.lungVolumeUrl ?? "",
-        process.env.NODE_ENV === "development",
-      ))
+      // The solid model is optional: if its URL can't be derived, keep VolView usable.
+      try {
+        setModelUrl(surfaceUrl(
+          selectedStudy.orthancStudyId,
+          process.env.NEXT_PUBLIC_IMAGING_URL ?? "",
+          data.lungVolumeUrl ?? "",
+          process.env.NODE_ENV === "development",
+          window.location.origin,
+        ))
+      } catch {
+        setViewMode("volume")
+      }
     } catch (err) {
       setError(
         err instanceof Error

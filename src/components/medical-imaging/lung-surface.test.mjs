@@ -36,6 +36,19 @@ test("uses the local imaging proxy and a configurable production origin", () => 
   assert.throws(() => surfaceUrl("study", "", "", false), /imágenes/)
 })
 
+test("resolves a relative lung volume URL against the browser origin", () => {
+  assert.equal(
+    surfaceUrl("study", "", "/imaging/studies/study/derived/lung-volume?v=1", false, "https://app.test"),
+    "https://app.test/imaging/studies/study/derived/lung-surface",
+  )
+})
+
+test("never fetches a non lung-volume URL as an STL surface", () => {
+  for (const volume of ["https://images.test/studies/study/derived/other", "ftp://images.test/lung-volume", "http://[bad"]) {
+    assert.throws(() => surfaceUrl("study", "", volume, false, "https://app.test"), /imágenes/)
+  }
+})
+
 test("maps LPS to a right-handed upright frame without mirroring", () => {
   const geometry = new BufferGeometry()
   geometry.setAttribute("position", new Float32BufferAttribute([0, 0, 0, 4, 0, 0, 0, 6, 0, 0, 0, 8], 3))

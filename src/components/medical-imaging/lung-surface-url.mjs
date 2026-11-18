@@ -1,14 +1,14 @@
-export function surfaceUrl(studyId, origin, lungVolumeUrl, local) {
+export function surfaceUrl(studyId, origin, lungVolumeUrl, local, browserOrigin = undefined) {
   const path = `/studies/${encodeURIComponent(studyId)}/derived/lung-surface`
   if (origin.trim()) return `${origin.trim().replace(/\/$/, "")}${path}`
   if (local) return `/imaging${path}`
-  if (lungVolumeUrl) {
-    const url = new URL(lungVolumeUrl)
-    if (["https:", "http:"].includes(url.protocol)) {
-      url.pathname = url.pathname.replace(/\/lung-volume$/, "/lung-surface")
-      url.search = ""
-      return url.toString()
-    }
+  // Derive the surface from the volume URL only when it really is the lung-volume
+  // endpoint; anything else would download a NIfTI/other file as if it were STL.
+  const url = URL.canParse(lungVolumeUrl, browserOrigin) ? new URL(lungVolumeUrl, browserOrigin) : null
+  if (url && ["https:", "http:"].includes(url.protocol) && /\/lung-volume$/.test(url.pathname)) {
+    url.pathname = url.pathname.replace(/\/lung-volume$/, "/lung-surface")
+    url.search = ""
+    return url.toString()
   }
   throw new Error("Configurá la URL del servicio de imágenes para el modelo sólido.")
 }
