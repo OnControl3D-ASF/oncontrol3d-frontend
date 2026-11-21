@@ -1,6 +1,8 @@
 // API Configuration and Client for OnControl Backend v2.0
 // New Architecture: Organizations → Doctors → Patients
 
+import { mergeSession, isSessionExpired } from './auth-session.mjs';
+
 // API Base URL - defaults to production backend
 // const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://oncontrol-backend-api.onrender.com';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.trim() || ""
@@ -700,6 +702,18 @@ class ApiClient {
     return this.token;
   }
 
+  // Drop the local session and send the user to the login page.
+  private endSession() {
+    this.setToken(null);
+    if (typeof window !== 'undefined') {
+      ['userType', 'userData', 'userId', 'organizationId', 'doctorProfileId', 'patientProfileId']
+        .forEach((k) => localStorage.removeItem(k));
+      if (window.location.pathname !== '/auth/login') {
+        window.location.assign('/auth/login');
+      }
+    }
+  }
+
   private async request<T>(
     endpoint: string,
     options: RequestInit = {}
@@ -752,6 +766,11 @@ class ApiClient {
           console.error('❌ API Error:', { url, status: response.status, errorData });
         }
         
+        // 401 = missing/expired/invalid token (403 = authenticated but denied).
+        if (isSessionExpired(response.status, endpoint)) {
+          this.endSession();
+        }
+
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
 
@@ -789,36 +808,37 @@ class ApiClient {
   // AUTHENTICATION ENDPOINTS
   // ============================================
 
+  // Organization onboarding: public POST /api/organizations (clinical, 201, no token),
+  // then a regular login through the auth service.
   async registerOrganization(data: RegisterOrganizationRequest): Promise<OrganizationLoginResponse> {
-    const response = await this.request<OrganizationLoginResponse>(
-      '/api/auth/register/organization',
-      {
+    await this.request<unknown>('/api/organizations', {
       method: 'POST',
-        body: JSON.stringify(data),
-      }
-    );
+      body: JSON.stringify(data),
+    });
 
-    if (response.token) {
-      this.setToken(response.token);
-    }
-
-    return response;
+    const session = await this.login({ email: data.email, password: data.password });
+    return session as OrganizationLoginResponse;
   }
 
+  // Login = POST /api/auth/login (auth service: slim {token,...}) followed by
+  // GET /api/me (clinical) with the new Bearer token. The session is `{...me, token}`,
+  // the same shape the legacy clinical login returned.
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    const response = await this.request<LoginResponse>('/api/auth/login', {
+    this.setToken(null); // never send a stale token to the login endpoint
+
+    const loginBody = await this.request<{ token: string }>('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
 
-    // Store token for all user types
-    // For organizations: response has 'token' and 'type' = 'ORGANIZATION'
-    // For profiles: response has 'profile' object and optionally 'token'
-    if ('token' in response && response.token) {
-      this.setToken(response.token);
+    this.setToken(loginBody.token);
+    try {
+      const me = await this.request<object>('/api/me');
+      return mergeSession(me, loginBody) as LoginResponse;
+    } catch (error) {
+      this.setToken(null);
+      throw error;
     }
-
-    return response;
   }
 
   async logout(): Promise<void> {

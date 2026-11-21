@@ -74,7 +74,14 @@ const nextConfig: NextConfig = {
     const IMAGING_ORIGIN = process.env.IMAGING_ORIGIN ?? "http://localhost:8001";
     const ORTHANC_ORIGIN = process.env.ORTHANC_ORIGIN ?? "http://localhost:8042";
 
+    // Auth service (login). Defaults to the backend so nothing changes until
+    // AUTH_ORIGIN is set (e.g. http://localhost:8082). Rollback = unset it.
+    const AUTH_ORIGIN = process.env.AUTH_ORIGIN ?? BACKEND_ORIGIN;
+
     return [
+      // Auth service: MUST precede the generic /api catch-all. /internal is never proxied.
+      { source: "/api/auth/:path*", destination: `${AUTH_ORIGIN}/api/auth/:path*` },
+
       // Spring Boot backend
       { source: "/api/:path*", destination: `${BACKEND_ORIGIN}/api/:path*` },
 

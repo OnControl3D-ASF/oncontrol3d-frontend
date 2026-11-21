@@ -83,6 +83,19 @@ Asegúrate de configurar la URL del backend:
 NEXT_PUBLIC_API_URL=https://oncontrol-backend-api.onrender.com
 ```
 
+#### Servicio de autenticación (desarrollo)
+
+El login vive en el auth-service. En `npm run dev`, `/api/auth/*` se proxea a `AUTH_ORIGIN`
+(por defecto `BACKEND_ORIGIN`, es decir `http://localhost:8081`, sin cambios de comportamiento).
+Para usar el auth-service local, definí en `.env.local`:
+```env
+AUTH_ORIGIN=http://localhost:8082
+```
+Para volver al login del backend clinico, quitá `AUTH_ORIGIN`. El flujo es
+`POST /api/auth/login` -> `GET /api/me` (Bearer) -> sesión `{...me, token}`; el registro de
+organizaciones usa `POST /api/organizations` y luego login. Una respuesta 401 en un endpoint
+autenticado cierra la sesión y redirige a `/auth/login`. `/internal` nunca se proxea.
+
 ### Instalación Local
 ```bash
 # Instalar dependencias
