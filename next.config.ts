@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Self-contained server (.next/standalone, `node server.js`): the runtime image ships
+  // only the traced production dependencies, no devDependencies and no npm.
+  output: "standalone",
+
   // Hide the floating Next.js dev-tools indicator (the round button bottom-left).
   devIndicators: false,
 
@@ -64,9 +68,9 @@ const nextConfig: NextConfig = {
   // (localhost defaults) and in production (set these on Vercel to the
   // deployed/tunnelled HTTPS origins to avoid mixed-content and CORS).
   async rewrites() {
-    // Only proxy in local dev. In production the app calls the backend via the
-    // absolute NEXT_PUBLIC_API_URL and the 3D viewer loads from its own HTTPS
-    // origin (Azure), so these rewrites are unused there — returning [] guarantees
+    // Only proxy in local dev. In production (AKS) the edge (Traefik) routes /api/auth,
+    // /api, /imaging, /volview and / to their services on ONE origin, and the browser calls
+    // same-origin relative URLs, so these rewrites are unused there — returning [] guarantees
     // they never shadow a same-origin path in prod.
     if (process.env.NODE_ENV !== "development") return [];
 
