@@ -1,0 +1,203 @@
+# Frontend (Next.js standalone) on AKS (namespaces "oncontrol" / "oncontrol-prod", Pod
+# Security "restricted").
+#
+# Template rendered by the CI/CD pipeline with envsubst (explicit variable list):
+#   NAMESPACE, IMAGE (registry/repo@sha256:digest), APP_VERSION, MIN_REPLICAS, MAX_REPLICAS,
+#   CPU_REQUEST, CPU_LIMIT, MEMORY_REQUEST, MEMORY_LIMIT
+#
+# No secrets and no API origin: the browser calls same-origin relative URLs and the edge
+# (Traefik, oncontrol3d-infra) routes /api/auth -> auth, /api -> clinical, / -> this Service.
+#
+# The Deployment has no "replicas": the HorizontalPodAutoscaler owns the count (a fixed value
+# here would reset it on every apply).
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: frontend
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/part-of: oncontrol3d
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/part-of: oncontrol3d
+data:
+  PORT: "3000"
+  HOSTNAME: "0.0.0.0"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/part-of: oncontrol3d
+    app.kubernetes.io/version: "${APP_VERSION}"
+spec:
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: frontend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: frontend
+        app.kubernetes.io/part-of: oncontrol3d
+        app.kubernetes.io/version: "${APP_VERSION}"
+    spec:
+      serviceAccountName: frontend
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: frontend
+          image: ${IMAGE}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: frontend-config
+          resources:
+            requests:
+              cpu: "${CPU_REQUEST}"
+              memory: "${MEMORY_REQUEST}"
+            limits:
+              cpu: "${CPU_LIMIT}"
+              memory: "${MEMORY_LIMIT}"
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 3
+            failureThreshold: 20
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: next-cache
+              mountPath: /app/.next/cache
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: next-cache
+          emptyDir:
+            sizeLimit: 256Mi
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/part-of: oncontrol3d
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: frontend
+  ports:
+    - name: http
+      port: 3000
+      targetPort: http
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/part-of: oncontrol3d
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend
+  minReplicas: ${MIN_REPLICAS}
+  maxReplicas: ${MAX_REPLICAS}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+---
+# L4 only. The server renders pages and serves static assets: it calls no other service, so
+# egress is DNS only.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: frontend
+    app.kubernetes.io/part-of: oncontrol3d
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: frontend
+  policyTypes: [Ingress, Egress]
+  ingress:
+    # Public traffic through the Traefik edge.
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: traefik
+      ports:
+        - protocol: TCP
+          port: 3000
+  egress:
+    # DNS
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
