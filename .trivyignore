@@ -1,0 +1,7 @@
+# Temporarily accepted risks. Each entry expires and must then be reviewed.
+
+# zlib (Debian 12 base image): integer overflow in minizip's zipOpenNewFileInZip4_6.
+# Debian marks it will_not_fix and ships no patched package. The application never
+# creates ZIP files and does not use minizip. Remove when the base image moves to a
+# Debian release with a fixed zlib (e.g. node:22-trixie-slim).
+CVE-2023-45853 exp:2027-02-01
