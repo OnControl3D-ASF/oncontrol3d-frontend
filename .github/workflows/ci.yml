@@ -1,0 +1,51 @@
+name: CI
+
+# Quality pipeline for the frontend:
+#   install -> lint -> type-check -> tests; Kubernetes manifests rendered and validated.
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_call: # reusable by cicd.yml for main and release tags
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }} # never cancel a delivery on main
+
+jobs:
+  # Renders deploy/k8s for dev and prod with placeholder values (same render.sh as the
+  # deployment) and validates them: proves every variable is provided and the result is
+  # schema-valid. See deploy/validate.sh.
+  manifests:
+    name: Validate Kubernetes manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Render and validate (dev, prod)
+        run: deploy/validate.sh
+
+  build-test:
+    name: Lint, type-check & tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npx tsc --noEmit
+
+      - name: Tests
+        run: npm test
