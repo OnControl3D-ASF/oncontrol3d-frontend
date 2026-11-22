@@ -3,8 +3,9 @@ name: CI/CD
 # Frontend delivery pipeline:
 #
 #   quality ─┐  lint, tsc, tests, manifests
-#   secrets ─┴─▶ image ─▶ deliver dev ─▶ deliver prod
-#      gitleaks   build once, Trivy gates,   (approval)   (tags vX.Y.Z only, approval)
+#   secrets ─┤  gitleaks
+#   sca ─────┴─▶ image ─▶ deliver dev ─▶ deliver prod
+#      Trivy lockfile   build once, Trivy gates,   (approval)   (tags vX.Y.Z only, approval)
 #                 SBOM, artifact
 #
 #   push to main  -> image sha-<commit>          -> dev
@@ -39,9 +40,13 @@ jobs:
     name: Secrets
     uses: ./.github/workflows/secrets.yml
 
+  sca:
+    name: SCA
+    uses: ./.github/workflows/sca.yml
+
   image:
     name: Build & scan image
-    needs: [quality, secrets]
+    needs: [quality, secrets, sca]
     runs-on: ubuntu-latest
     env:
       TRIVY_IMAGE: aquasec/trivy@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7bac8db623eca6c06c

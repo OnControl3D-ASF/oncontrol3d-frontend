@@ -1,0 +1,62 @@
+name: SCA
+
+# Dependency scan of package-lock.json.
+# Needed in addition to the image scan: Next.js "standalone" bundles client and server
+# dependencies into .next chunks, so Trivy cannot see them inside the image
+# (jsPDF 3.0.4 with 2 CRITICAL went undetected by the image gate).
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_call: # called by cicd.yml for main and release tags
+  schedule:
+    - cron: "0 6 * * 1" # new vulnerabilities can appear without code changes
+
+permissions:
+  contents: read
+
+env:
+  TRIVY_IMAGE: aquasec/trivy@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7bac8db623eca6c06c
+
+jobs:
+  trivy:
+    name: Dependency scan (Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # package-lock.json pins exact versions, so no install step is needed.
+      - name: Generate full report
+        run: >
+          docker run --rm
+          -v "$GITHUB_WORKSPACE:/src"
+          -v trivy-cache:/root/.cache
+          -w /src
+          "$TRIVY_IMAGE"
+          fs package-lock.json --scanners vuln --format json --output trivy.json
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: trivy-sca-report
+          path: trivy.json
+
+      # Blocking policy: ANY CRITICAL blocks (fixed or not); HIGH blocks when a fix exists.
+      - name: Fail on CRITICAL vulnerabilities
+        run: >
+          docker run --rm
+          -v "$GITHUB_WORKSPACE:/src"
+          -v trivy-cache:/root/.cache
+          -w /src
+          "$TRIVY_IMAGE"
+          fs package-lock.json --scanners vuln --severity CRITICAL --exit-code 1
+
+      - name: Fail on fixable HIGH vulnerabilities
+        run: >
+          docker run --rm
+          -v "$GITHUB_WORKSPACE:/src"
+          -v trivy-cache:/root/.cache
+          -w /src
+          "$TRIVY_IMAGE"
+          fs package-lock.json --scanners vuln --severity HIGH --ignore-unfixed --exit-code 1
