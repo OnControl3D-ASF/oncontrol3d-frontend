@@ -13,7 +13,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { ArrowLeft, Plus, X, Save, CalendarIcon, User, Pill, Activity, CheckCircle, FileText } from "lucide-react"
-import { format } from "date-fns"
+import { format, isBefore, startOfDay } from "date-fns"
 import { es } from "date-fns/locale"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -459,6 +459,7 @@ export default function NuevoTratamientoPage() {
                           mode="single" 
                           selected={formData.startDate}
                           onSelect={(date) => handleInputChange("startDate", date)}
+                          disabled={(date) => isBefore(date, startOfDay(new Date()))}
                           initialFocus
                         />
                       </PopoverContent>
